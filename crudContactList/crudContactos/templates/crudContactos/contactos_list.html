@@ -1,0 +1,73 @@
+{% load static %}
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi agenda virtual con Django</title>
+
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+    />
+  </head>
+  <body class="container py-5">
+    <h1>Lista de Contactos</h1>
+
+    <div class="p-5 border border-1 shadow">
+      <h1 class="fw-bold text-primary">Contactos</h1>
+      <h2>Con esta aplicacion podras gestionar tu agenda virtual</h2>
+
+      <p>
+        Consulta, crea, edita y elimina contactos de tu agenda de manera
+        sencilla y eficiente.
+      </p>
+    </div>
+
+    <div class="mt-5">
+      <h3>Mis contactos</h3>
+
+      <div>
+        <a href="{% url 'crudContact_new' %}" class="btn btn-primary">Registrar contacto</a>
+      </div>
+    </div>
+
+    <table class="mt-5 table table-hover">
+      <thead>
+        <tr>
+          <th>Nombres</th>
+          <th>F. Nacimiento</th>
+          <th>Celular</th>
+          <th>F. Registro</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contacto in object_list %}
+        <tr>
+          <td>
+            <div class="fw-bold">{{ contacto.nombre }}</div>
+            <div>{{ contacto.email }}</div>
+          </td>
+          <td>{{ contacto.birthday }}</td>
+          <td>{{ contacto.phone }}</td>
+          <td>{{ contacto.created }}</td>
+          <td>
+            <div class="btn-group btn-group-sm">
+              <a href="{% url 'crudContact_edit' contacto.pk %}" class="btn btn-primary">Editar</a>
+              <a href="{% url 'crudContact_delete' contacto.pk %}" class="btn btn-danger">Eliminar</a>
+            </div>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5">No hay contactos registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>

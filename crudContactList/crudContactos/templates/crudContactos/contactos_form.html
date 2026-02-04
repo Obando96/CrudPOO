@@ -1,0 +1,46 @@
+{% load static %}
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Mi agenda virtual con Django</title>
+
+    <link
+      rel="stylesheet"
+      href="{% static 'bootstrap/css/bootstrap.min.css' %}"
+    />
+  </head>
+  <body class="container py-5">
+    <h1>Lista de Contactos</h1>
+
+    <div class="p-5 border border-1 shadow">
+      <h1 class="fw-bold text-primary">Contactos</h1>
+      <h2>Con esta aplicacion podras gestionar tu agenda virtual</h2>
+
+      <p>
+        Consulta, crea, edita y elimina contactos de tu agenda de manera
+        sencilla y eficiente.
+      </p>
+    </div>
+
+    <div class="mt-5">
+      <h3>{% if contactos %}Editar contacto{% else %} Nuevo contacto{% endif %}</h3>
+    </div>
+
+    <form
+      method="post"
+      class="mt-5 mx-auto"
+      style="max-width: 320px"
+      novalidate
+    >
+      {% csrf_token %} {{ form.as_p }}
+      <div class="text-end mt-3">
+        <a href="{% url 'crudContact_list' %}">Cancelar</a>
+        <button class="btn btn-primary">{% if contactos %}Guardar{% else %}Crear{% endif %} contacto</button>
+      </div>
+    </form>
+    <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  </body>
+</html>
