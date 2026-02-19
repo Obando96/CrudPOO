@@ -49,14 +49,28 @@
           <td>
             <div class="fw-bold">{{ contacto.nombre }}</div>
             <div>{{ contacto.email }}</div>
+            {% if contacto.fijado %}
+            <span class="badge text-bg-warning mt-1">Fijado</span>
+            {% endif %}
           </td>
-          <td>{{ contacto.birthday }}</td>
+          <td>{{ contacto.birthdate }}</td>
           <td>{{ contacto.phone }}</td>
           <td>{{ contacto.created }}</td>
           <td>
-            <div class="btn-group btn-group-sm">
-              <a href="{% url 'crudContact_edit' contacto.pk %}" class="btn btn-primary">Editar</a>
-              <a href="{% url 'crudContact_delete' contacto.pk %}" class="btn btn-danger">Eliminar</a>
+            <div class="d-flex gap-1">
+              <form method="post" action="{% url 'crudContact_fix' contacto.pk %}">
+                {% csrf_token %}
+                <button
+                  type="submit"
+                  class="btn btn-sm {% if contacto.fijado %}btn-warning{% else %}btn-outline-secondary{% endif %}"
+                >
+                  {% if contacto.fijado %}Desfijar{% else %}Fijar{% endif %}
+                </button>
+              </form>
+              <div class="btn-group btn-group-sm">
+                <a href="{% url 'crudContact_edit' contacto.pk %}" class="btn btn-primary">Editar</a>
+                <a href="{% url 'crudContact_delete' contacto.pk %}" class="btn btn-danger">Eliminar</a>
+              </div>
             </div>
           </td>
         </tr>
