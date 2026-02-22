@@ -36,6 +36,7 @@
     <table class="mt-5 table table-hover">
       <thead>
         <tr>
+          <th>Foto</th>
           <th>Nombres</th>
           <th>F. Nacimiento</th>
           <th>Celular</th>
@@ -47,10 +48,17 @@
         {% for contacto in object_list %}
         <tr>
           <td>
+            {% if contacto.foto %}
+            <img src="{{ contacto.foto.url }}" alt="Foto de {{ contacto.nombre }}" width="56" height="56" class="rounded object-fit-cover" />
+            {% else %}
+            <span class="text-muted">Sin foto</span>
+            {% endif %}
+          </td>
+          <td>
             <div class="fw-bold">{{ contacto.nombre }}</div>
             <div>{{ contacto.email }}</div>
-            {% if contacto.fijado %}
-            <span class="badge text-bg-warning mt-1">Fijado</span>
+            {% if contacto.favorito %}
+            <span class="badge text-bg-warning mt-1">⭐ Favorito</span>
             {% endif %}
           </td>
           <td>{{ contacto.birthdate }}</td>
@@ -62,9 +70,9 @@
                 {% csrf_token %}
                 <button
                   type="submit"
-                  class="btn btn-sm {% if contacto.fijado %}btn-warning{% else %}btn-outline-secondary{% endif %}"
+                  class="btn btn-sm {% if contacto.favorito %}btn-warning{% else %}btn-outline-secondary{% endif %}"
                 >
-                  {% if contacto.fijado %}Desfijar{% else %}Fijar{% endif %}
+                  {% if contacto.favorito %}⭐{% else %}☆{% endif %}
                 </button>
               </form>
               <div class="btn-group btn-group-sm">
@@ -76,7 +84,7 @@
         </tr>
         {% empty %}
         <tr>
-          <td colspan="5">No hay contactos registrados.</td>
+          <td colspan="6">No hay contactos registrados.</td>
         </tr>
         {% endfor %}
       </tbody>
